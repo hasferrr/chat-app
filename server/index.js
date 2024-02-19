@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const { createServer } = require('node:http')
 const { Server } = require('socket.io')
+const { Chat } = require('./models')
 
 const app = express()
 const server = createServer(app)
@@ -13,14 +15,27 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok' })
 })
 
+app.get('/del', async (req, res) => {
+  await Chat.deleteMany()
+  res.json({ status: 'delete success' })
+})
+
 io.on('connection', (socket) => {
   console.log('a user connected')
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
-  socket.on('message', (msg) => {
-    console.log(msg)
-    io.emit('message', msg)
+  socket.on('message', async (msg) => {
+    const chat = new Chat({
+      message: msg,
+    })
+    try {
+      const addedMsg = await chat.save()
+      console.log(addedMsg)
+      io.emit('message', msg)
+    } catch (err) {
+      console.log(err.message)
+    }
   })
 })
 
