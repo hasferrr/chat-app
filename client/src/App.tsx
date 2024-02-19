@@ -2,18 +2,13 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { socket } from './socket'
 
 const App = () => {
   const [inputValue, setInputValue] = useState('')
   const [messages, setMessages] = useState<string[]>([])
-
-  useEffect(() => {
-    if (!socket.connected) {
-      socket.connect()
-    }
-  }, [])
+  const [isConnected, setIsConnected] = useState(socket.connected)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -28,6 +23,9 @@ const App = () => {
   return (
     <div className={cn('container', 'mx-auto', 'px-4', 'h-screen')}>
       <ModeToggle />
+      <p className="text-xl font-bold">
+        Status: {isConnected ? 'Connected' : 'Disconnected'}
+      </p>
       <ul>
         {messages.map((message, index) => (
           <li key={index}>{message}</li>
@@ -42,6 +40,27 @@ const App = () => {
             onChange={(e) => setInputValue(e.target.value)}
           />
           <Button type="submit">Send</Button>
+          {isConnected ? (
+            <Button
+              type="button"
+              onClick={() => {
+                socket.disconnect()
+                setIsConnected(!isConnected)
+              }}
+            >
+              Disconnect
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              onClick={() => {
+                socket.connect()
+                setIsConnected(!isConnected)
+              }}
+            >
+              Connect
+            </Button>
+          )}
         </div>
       </form>
     </div>

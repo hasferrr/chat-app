@@ -4,7 +4,10 @@ const { Server } = require('socket.io')
 
 const app = express()
 const server = createServer(app)
-const io = new Server(server, { cors: true })
+const io = new Server(server, {
+  cors: true,
+  connectionStateRecovery: {},
+})
 
 app.get('/', (req, res) => {
   res.json({ status: 'ok' })
