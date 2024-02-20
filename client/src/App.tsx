@@ -2,13 +2,18 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { socket } from './socket'
 
 const App = () => {
   const [inputValue, setInputValue] = useState('')
   const [messages, setMessages] = useState<string[]>([])
-  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [isConnected, setIsConnected] = useState(false)
+
+  useEffect(() => {
+    socket.connect()
+    setIsConnected(true)
+  }, [])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -18,6 +23,12 @@ const App = () => {
 
   socket.on('message', (msg: string) => {
     setMessages([...messages, msg])
+  })
+
+  socket.on('get-message', (chats: { message: string }[]) => {
+    const initialMessage: string[] = []
+    chats.forEach((chat) => initialMessage.push(chat.message))
+    setMessages(initialMessage)
   })
 
   return (

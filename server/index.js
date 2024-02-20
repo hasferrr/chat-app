@@ -20,11 +20,16 @@ app.get('/del', async (req, res) => {
   res.json({ status: 'delete success' })
 })
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   console.log('a user connected')
+
+  const chats = await Chat.find()
+  socket.emit('get-message', chats)
+
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
+
   socket.on('message', async (msg) => {
     const chat = new Chat({
       message: msg,
