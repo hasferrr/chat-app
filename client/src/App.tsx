@@ -102,7 +102,8 @@ const App = () => {
                   'px-4',
                   'rounded-xl',
                   'rounded-bl-none',
-                  'max-w-sm',
+                  'max-w-[90vw]',
+                  'md:max-w-2xl',
                   'break-words'
                 )}
               >
