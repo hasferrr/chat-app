@@ -1,52 +1,31 @@
-import { useEffect, useRef, useState } from 'react'
-
-import { ModeToggle } from '@/components/mode-toggle'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 
-import { socket } from './socket'
-import { epochTimeToStringDate } from './helpers'
+import socket from './utils/socket'
+import Header from './components/Header/Header'
+import Chats from './components/Chats/Chats'
+import Form from './components/Form/Form'
 
-interface Chat {
+export interface IChat {
   author: string
   message: string
   epochTime: number
 }
 
 const App = () => {
-  const [inputValue, setInputValue] = useState('')
-  const [chats, setChats] = useState<Chat[]>([])
+  const [chats, setChats] = useState<IChat[]>([])
   const [isConnected, setIsConnected] = useState(false)
-
-  const chatRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     socket.connect()
     setIsConnected(true)
   }, [])
 
-  useEffect(() => {
-    if (chatRef.current) {
-      chatRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-      })
-    }
-  }, [chats.length])
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    socket.emit('message', inputValue)
-    setInputValue('')
-  }
-
-  socket.on('message', (chat: Chat) => {
+  socket.on('message', (chat: IChat) => {
     setChats([...chats, chat])
   })
 
-  socket.on('get-message', (chats: Chat[]) => {
+  socket.on('get-message', (chats: IChat[]) => {
     setChats(
       chats.map((chat) => ({
         author: chat.author,
@@ -68,83 +47,12 @@ const App = () => {
         'px-1'
       )}
     >
-      <div className="flex items-center gap-2 py-2">
-        <ModeToggle />
-        <div className="text-xl font-bold grow">
-          Status:{' '}
-          {isConnected ? (
-            <span className="text-green-600">Connected</span>
-          ) : (
-            <span className="text-red-600">Disconnected</span>
-          )}
-        </div>
-        {isConnected ? (
-          <Button
-            type="button"
-            onClick={() => {
-              socket.disconnect()
-              setIsConnected(!isConnected)
-            }}
-          >
-            Disconnect
-          </Button>
-        ) : (
-          <Button
-            type="button"
-            onClick={() => {
-              socket.connect()
-              setIsConnected(!isConnected)
-            }}
-          >
-            Connect
-          </Button>
-        )}
-      </div>
-
-      <ScrollArea>
-        <div className="h-[78vh] pr-4">
-          {chats.map((chat, index) => (
-            <div
-              key={index}
-              className={cn(
-                'bg-green-200',
-                'dark:bg-green-800',
-                'w-fit',
-                'my-2',
-                'py-2',
-                'px-4',
-                'rounded-xl',
-                'rounded-bl-none',
-                'max-w-[90vw]',
-                'md:max-w-2xl',
-                'break-words'
-              )}
-            >
-              <div>
-                <span className="font-semibold">{chat.author}</span>
-                <span> </span>
-                <span className="opacity-60 text-sm">
-                  {epochTimeToStringDate(chat.epochTime)}
-                </span>
-              </div>
-              <div>{chat.message}</div>
-            </div>
-          ))}
-          <div ref={chatRef}></div>
-        </div>
-      </ScrollArea>
-
-      <form onSubmit={handleSubmit}>
-        <div className="flex items-center gap-2 py-2">
-          <Input
-            type="text"
-            placeholder="type a message"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <Button type="submit">Send</Button>
-        </div>
-      </form>
+      <Header
+        isConnected={isConnected}
+        setIsConnected={setIsConnected}
+      />
+      <Chats chats={chats} />
+      <Form />
     </div>
   )
 }

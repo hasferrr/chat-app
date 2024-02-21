@@ -1,4 +1,4 @@
-export const epochTimeToStringDate = (epochTime: number): string => {
+const epochToDate = (epochTime: number): string => {
   const localDate = new Date(epochTime)
 
   const monthArray = [
@@ -33,3 +33,5 @@ export const epochTimeToStringDate = (epochTime: number): string => {
 
   return `${formattedDate}, ${formattedTime}`
 }
+
+export default epochToDate
