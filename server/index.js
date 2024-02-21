@@ -1,11 +1,22 @@
 require('dotenv').config()
 const express = require('express')
+const mongoose = require('mongoose')
 const { createServer } = require('node:http')
 const { Server } = require('socket.io')
-const { Chat } = require('./models')
+
+const Chat = require('./models/chat')
+const chatHandler = require('./handlers/chatHandler')
+const connectHandler = require('./handlers/connectHandler')
 
 const app = express()
 const server = createServer(app)
+
+mongoose.set('strictQuery', false)
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log('conected to MongoDB'))
+  .catch((error) => console.log('error connecting to MongoDB:', error.message))
+
 const io = new Server(server, {
   cors: true,
   connectionStateRecovery: {},
@@ -15,38 +26,17 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok' })
 })
 
-app.get('/del', async (req, res) => {
+app.delete('/', async (req, res) => {
   await Chat.deleteMany()
   res.json({ status: 'delete success' })
 })
 
-io.on('connection', async (socket) => {
-  console.log('a user connected')
-
-  const chats = await Chat.find()
-  socket.emit('get-message', chats)
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  })
-
-  socket.on('message', async (msg) => {
-    const chat = new Chat({
-      author: 'Hasfer',
-      message: msg,
-      epochTime: Date.now(),
-    })
-    try {
-      const addedChat = await chat.save()
-      console.log(addedChat)
-      io.emit('message', addedChat)
-    } catch (err) {
-      console.log(err.message)
-    }
-  })
+io.on('connection', (socket) => {
+  connectHandler(io, socket)
+  chatHandler(io, socket)
 })
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 server.listen(PORT, () => {
   console.log(`server running at http://localhost:${PORT}`)
