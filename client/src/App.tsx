@@ -50,82 +50,82 @@ const App = () => {
         'flex',
         'flex-col',
         'justify-center',
-        'items-center',
-        'h-screen'
+        'h-screen',
+        'max-w-2xl',
+        'mx-auto',
+        'px-1'
       )}
     >
-      <div>
-        <div className="flex items-center gap-2 py-2">
-          <ModeToggle />
-          <div className="text-xl font-bold grow">
-            Status:{' '}
-            {isConnected ? (
-              <span className="text-green-600">Connected</span>
-            ) : (
-              <span className="text-red-600">Disconnected</span>
-            )}
-          </div>
+      <div className="flex items-center gap-2 py-2">
+        <ModeToggle />
+        <div className="text-xl font-bold grow">
+          Status:{' '}
           {isConnected ? (
-            <Button
-              type="button"
-              onClick={() => {
-                socket.disconnect()
-                setIsConnected(!isConnected)
-              }}
-            >
-              Disconnect
-            </Button>
+            <span className="text-green-600">Connected</span>
           ) : (
-            <Button
-              type="button"
-              onClick={() => {
-                socket.connect()
-                setIsConnected(!isConnected)
-              }}
-            >
-              Connect
-            </Button>
+            <span className="text-red-600">Disconnected</span>
           )}
         </div>
-
-        <ScrollArea>
-          <div className="h-[78vh] pr-4">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'bg-green-200',
-                  'dark:bg-green-800',
-                  'w-fit',
-                  'my-2',
-                  'py-2',
-                  'px-4',
-                  'rounded-xl',
-                  'rounded-bl-none',
-                  'max-w-[90vw]',
-                  'md:max-w-2xl',
-                  'break-words'
-                )}
-              >
-                {message}
-              </div>
-            ))}
-            <div ref={chatRef}></div>
-          </div>
-        </ScrollArea>
-
-        <form onSubmit={handleSubmit}>
-          <div className="flex items-center gap-2 py-2">
-            <Input
-              type="text"
-              placeholder="type a message"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <Button type="submit">Send</Button>
-          </div>
-        </form>
+        {isConnected ? (
+          <Button
+            type="button"
+            onClick={() => {
+              socket.disconnect()
+              setIsConnected(!isConnected)
+            }}
+          >
+            Disconnect
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            onClick={() => {
+              socket.connect()
+              setIsConnected(!isConnected)
+            }}
+          >
+            Connect
+          </Button>
+        )}
       </div>
+
+      <ScrollArea>
+        <div className="h-[78vh] pr-4">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={cn(
+                'bg-green-200',
+                'dark:bg-green-800',
+                'w-fit',
+                'my-2',
+                'py-2',
+                'px-4',
+                'rounded-xl',
+                'rounded-bl-none',
+                'max-w-[90vw]',
+                'md:max-w-2xl',
+                'break-words'
+              )}
+            >
+              {message}
+            </div>
+          ))}
+          <div ref={chatRef}></div>
+        </div>
+      </ScrollArea>
+
+      <form onSubmit={handleSubmit}>
+        <div className="flex items-center gap-2 py-2">
+          <Input
+            type="text"
+            placeholder="type a message"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <Button type="submit">Send</Button>
+        </div>
+      </form>
     </div>
   )
 }
