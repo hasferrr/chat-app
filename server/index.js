@@ -32,12 +32,14 @@ io.on('connection', async (socket) => {
 
   socket.on('message', async (msg) => {
     const chat = new Chat({
+      author: 'Hasfer',
       message: msg,
+      epochTime: Date.now(),
     })
     try {
-      const addedMsg = await chat.save()
-      console.log(addedMsg)
-      io.emit('message', msg)
+      const addedChat = await chat.save()
+      console.log(addedChat)
+      io.emit('message', addedChat)
     } catch (err) {
       console.log(err.message)
     }

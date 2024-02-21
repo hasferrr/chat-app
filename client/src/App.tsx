@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { socket } from './socket'
 
 import { ModeToggle } from '@/components/mode-toggle'
 import { Input } from '@/components/ui/input'
@@ -7,9 +6,18 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 
+import { socket } from './socket'
+import { epochTimeToStringDate } from './helpers'
+
+interface Chat {
+  author: string
+  message: string
+  epochTime: number
+}
+
 const App = () => {
   const [inputValue, setInputValue] = useState('')
-  const [messages, setMessages] = useState<string[]>([])
+  const [chats, setChats] = useState<Chat[]>([])
   const [isConnected, setIsConnected] = useState(false)
 
   const chatRef = useRef<HTMLDivElement>(null)
@@ -26,7 +34,7 @@ const App = () => {
         block: 'end',
       })
     }
-  }, [messages.length])
+  }, [chats.length])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -34,14 +42,18 @@ const App = () => {
     setInputValue('')
   }
 
-  socket.on('message', (msg: string) => {
-    setMessages([...messages, msg])
+  socket.on('message', (chat: Chat) => {
+    setChats([...chats, chat])
   })
 
-  socket.on('get-message', (chats: { message: string }[]) => {
-    const initialMessage: string[] = []
-    chats.forEach((chat) => initialMessage.push(chat.message))
-    setMessages(initialMessage)
+  socket.on('get-message', (chats: Chat[]) => {
+    setChats(
+      chats.map((chat) => ({
+        author: chat.author,
+        message: chat.message,
+        epochTime: chat.epochTime,
+      }))
+    )
   })
 
   return (
@@ -91,7 +103,7 @@ const App = () => {
 
       <ScrollArea>
         <div className="h-[78vh] pr-4">
-          {messages.map((message, index) => (
+          {chats.map((chat, index) => (
             <div
               key={index}
               className={cn(
@@ -108,7 +120,14 @@ const App = () => {
                 'break-words'
               )}
             >
-              {message}
+              <div>
+                <span className="font-semibold">{chat.author}</span>
+                <span> </span>
+                <span className="opacity-60 text-sm">
+                  {epochTimeToStringDate(chat.epochTime)}
+                </span>
+              </div>
+              <div>{chat.message}</div>
             </div>
           ))}
           <div ref={chatRef}></div>

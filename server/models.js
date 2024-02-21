@@ -7,8 +7,16 @@ mongoose
   .catch((error) => console.log('error connecting to MongoDB:', error.message))
 
 const chatSchema = new mongoose.Schema({
+  author: {
+    type: String,
+    required: true,
+  },
   message: {
     type: String,
+    required: true,
+  },
+  epochTime: {
+    type: Number,
     required: true,
   },
 })
