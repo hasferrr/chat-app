@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { cn } from '@/lib/utils'
 
 import authentication from './services/authentication'
 import socket from './utils/socket'
@@ -41,17 +40,7 @@ const App = () => {
       <Route
         path="/"
         element={
-          <div
-            className={cn(
-              'flex',
-              'flex-col',
-              'justify-center',
-              'h-screen',
-              'max-w-2xl',
-              'mx-auto',
-              'px-1'
-            )}
-          >
+          <div className="flex flex-col justify-center h-screen max-w-2xl mx-auto px-1">
             <Header
               isConnected={isConnected}
               setIsConnected={setIsConnected}
