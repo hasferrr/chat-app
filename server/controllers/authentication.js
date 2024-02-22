@@ -19,7 +19,15 @@ authenticationRouter.post('/register', async (request, response) => {
 
   const savedUser = await user.save()
 
-  response.status(201).json(savedUser)
+  const token = jwt.sign(
+    {
+      username: user.username,
+      id: user._id,
+    },
+    process.env.SECRET,
+  )
+
+  response.status(201).json({ token, username: savedUser.username })
 })
 
 authenticationRouter.post('/login', async (request, response) => {
