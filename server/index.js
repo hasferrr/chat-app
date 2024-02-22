@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const { createServer } = require('node:http')
 const { Server } = require('socket.io')
 
@@ -24,6 +25,7 @@ const io = new Server(server, {
 })
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.json({ status: 'ok' })
