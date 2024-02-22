@@ -30,19 +30,8 @@ export const UserContextProvider: React.FC<{
 }
 
 export const useUser = () => {
-  const [, dispatch] = useContext(UserContext)
-  return () => {
-    const userString = window.localStorage.getItem('user')
-    if (userString) {
-      const user: User = JSON.parse(userString)
-      dispatch({
-        type: 'SET',
-        payload: user,
-      })
-      return user
-    }
-    return null
-  }
+  const [value] = useContext(UserContext)
+  return value
 }
 
 export const useSetUser = () => {
