@@ -13,6 +13,12 @@ const chatSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Chat',
+    },
+  ],
 })
 
 const Chat = mongoose.model('Chat', chatSchema)

@@ -5,6 +5,7 @@ const { createServer } = require('node:http')
 const { Server } = require('socket.io')
 
 const Chat = require('./models/chat')
+const authenticationRouter = require('./controllers/authentication')
 const chatHandler = require('./handlers/chatHandler')
 const connectHandler = require('./handlers/connectHandler')
 
@@ -22,6 +23,8 @@ const io = new Server(server, {
   connectionStateRecovery: {},
 })
 
+app.use(express.json())
+
 app.get('/', (req, res) => {
   res.json({ status: 'ok' })
 })
@@ -30,6 +33,8 @@ app.delete('/', async (req, res) => {
   await Chat.deleteMany()
   res.json({ status: 'delete success' })
 })
+
+app.use('/', authenticationRouter)
 
 io.on('connection', (socket) => {
   connectHandler(io, socket)
