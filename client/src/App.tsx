@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
 import socket from './utils/socket'
 import Header from './components/Header/Header'
 import Chats from './components/Chats/Chats'
 import Form from './components/Form/Form'
+import AuthForm from './components/AuthForm/AuthForm'
 
 export interface IChat {
   author: string
@@ -36,24 +38,49 @@ const App = () => {
   })
 
   return (
-    <div
-      className={cn(
-        'flex',
-        'flex-col',
-        'justify-center',
-        'h-screen',
-        'max-w-2xl',
-        'mx-auto',
-        'px-1'
-      )}
-    >
-      <Header
-        isConnected={isConnected}
-        setIsConnected={setIsConnected}
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <div
+            className={cn(
+              'flex',
+              'flex-col',
+              'justify-center',
+              'h-screen',
+              'max-w-2xl',
+              'mx-auto',
+              'px-1'
+            )}
+          >
+            <Header
+              isConnected={isConnected}
+              setIsConnected={setIsConnected}
+            />
+            <Chats chats={chats} />
+            <Form />
+          </div>
+        }
       />
-      <Chats chats={chats} />
-      <Form />
-    </div>
+      <Route
+        path="/login"
+        element={
+          <AuthForm
+            title={'Login'}
+            submitHandler={() => {}} // TODO: implements login handler
+          />
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <AuthForm
+            title={'Register'}
+            submitHandler={() => {}} // TODO: implements register handler
+          />
+        }
+      />
+    </Routes>
   )
 }
 

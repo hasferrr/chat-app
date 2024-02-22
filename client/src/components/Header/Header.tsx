@@ -11,9 +11,11 @@ const Header = ({
   setIsConnected: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   return (
-    <div className="flex items-center gap-2 py-2">
+    <div className="flex flex-wrap items-center gap-2 py-2">
       <ModeToggle />
-      <div className="text-xl font-bold grow">
+      <p className="text-xl">Hello Username!</p>
+      <div className="grow"></div>
+      <div className="text-xl font-bold">
         Status:{' '}
         {isConnected ? (
           <span className="text-green-600">Connected</span>
@@ -42,6 +44,7 @@ const Header = ({
           Connect
         </Button>
       )}
+      <Button>Log Out</Button>
     </div>
   )
 }
