@@ -18,16 +18,19 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { ICredentials, ILoggedIn } from '@/interfaces/interfaces'
+import { ICredentials, IUser } from '@/types/interfaces'
 
 import { useSetUser } from '@/context/userContext'
 
+/**
+ * Abstract function component for Register and Login
+ */
 const AuthForm = ({
   title,
   submitHandler,
 }: {
   title: 'Register' | 'Login'
-  submitHandler: (credentials: ICredentials) => Promise<ILoggedIn>
+  submitHandler: (credentials: ICredentials) => Promise<IUser>
 }) => {
   const navigate = useNavigate()
   const setUser = useSetUser()

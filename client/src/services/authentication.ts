@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ICredentials, ILoggedIn } from '@/interfaces/interfaces'
+import { ICredentials, IUser } from '@/types/interfaces'
 
 const baseUrl = import.meta.env.VITE_SOCKET_SERVER_URL
 
@@ -9,10 +9,10 @@ const authentication = async (endpoint: string, credentials: ICredentials) => {
   return response.data
 }
 
-const register = (credentials: ICredentials): Promise<ILoggedIn> =>
+const register = (credentials: ICredentials): Promise<IUser> =>
   authentication('register', credentials)
 
-const login = (credentials: ICredentials): Promise<ILoggedIn> =>
+const login = (credentials: ICredentials): Promise<IUser> =>
   authentication('login', credentials)
 
 export default {

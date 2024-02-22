@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { IChat } from '@/interfaces/interfaces'
+import { IChat } from '@/types/interfaces'
 import Chat from './Chat/Chat'
 
 const Chats = ({ chats }: { chats: IChat[] }) => {

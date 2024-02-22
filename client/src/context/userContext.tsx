@@ -1,7 +1,6 @@
-import { ILoggedIn } from '@/interfaces/interfaces'
 import { createContext, useReducer, useContext, Dispatch } from 'react'
 
-type User = ILoggedIn | null
+export type User = { token: string; username: string } | null
 type UserDispatch = { type: 'SET' | 'REMOVE'; payload: User }
 type UserReducer = [User, Dispatch<UserDispatch>]
 

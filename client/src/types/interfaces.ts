@@ -1,3 +1,5 @@
+import { User } from '@/context/userContext'
+
 export interface IChat {
   author: string
   message: string
@@ -9,7 +11,4 @@ export interface ICredentials {
   password: string
 }
 
-export interface ILoggedIn {
-  token: string
-  username: string
-}
+export type IUser = Exclude<User, null>
