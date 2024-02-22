@@ -6,20 +6,23 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { UserContextProvider } from './context/userContext.tsx'
 import { ChatsContextProvider } from './context/chatsContext.tsx'
+import { IsConnectedContextProvider } from './context/isConnectedContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
-      <UserContextProvider>
-        <ChatsContextProvider>
-          <ThemeProvider
-            defaultTheme="dark"
-            storageKey="vite-ui-theme"
-          >
-            <App />
-          </ThemeProvider>
-        </ChatsContextProvider>
-      </UserContextProvider>
+      <IsConnectedContextProvider>
+        <UserContextProvider>
+          <ChatsContextProvider>
+            <ThemeProvider
+              defaultTheme="dark"
+              storageKey="vite-ui-theme"
+            >
+              <App />
+            </ThemeProvider>
+          </ChatsContextProvider>
+        </UserContextProvider>
+      </IsConnectedContextProvider>
     </Router>
   </React.StrictMode>
 )

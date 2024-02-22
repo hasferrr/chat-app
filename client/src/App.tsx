@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import authentication from './services/authentication'
@@ -10,15 +10,15 @@ import AuthForm from './components/AuthForm/AuthForm'
 import { IChat } from './types/interfaces'
 
 import { useAppendOneChat, useSetChats } from './context/chatsContext'
+import { useConnect } from './context/isConnectedContext'
 
 const App = () => {
   const setChats = useSetChats()
   const appendOneChat = useAppendOneChat()
-  const [isConnected, setIsConnected] = useState(false)
+  const connect = useConnect()
 
   useEffect(() => {
-    socket.connect()
-    setIsConnected(true)
+    connect()
   }, [])
 
   socket.on('message', (chat: IChat) => {
@@ -41,10 +41,7 @@ const App = () => {
         path="/"
         element={
           <div className="flex flex-col justify-center h-screen max-w-2xl mx-auto px-1">
-            <Header
-              isConnected={isConnected}
-              setIsConnected={setIsConnected}
-            />
+            <Header />
             <Chats />
             <Form />
           </div>

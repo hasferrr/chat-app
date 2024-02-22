@@ -1,15 +1,16 @@
 import { ModeToggle } from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
+import {
+  useConnect,
+  useDisconnect,
+  useIsConnected,
+} from '@/context/isConnectedContext'
 
-import socket from '@/utils/socket'
+const Header = () => {
+  const isConnected = useIsConnected()
+  const connect = useConnect()
+  const disconnect = useDisconnect()
 
-const Header = ({
-  isConnected,
-  setIsConnected,
-}: {
-  isConnected: boolean
-  setIsConnected: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
   return (
     <div className="flex flex-wrap items-center gap-2 py-2">
       <ModeToggle />
@@ -26,20 +27,14 @@ const Header = ({
       {isConnected ? (
         <Button
           type="button"
-          onClick={() => {
-            socket.disconnect()
-            setIsConnected(!isConnected)
-          }}
+          onClick={() => disconnect()}
         >
           Disconnect
         </Button>
       ) : (
         <Button
           type="button"
-          onClick={() => {
-            socket.connect()
-            setIsConnected(!isConnected)
-          }}
+          onClick={() => connect()}
         >
           Connect
         </Button>
