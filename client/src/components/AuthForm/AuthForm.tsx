@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -18,6 +20,8 @@ import { Input } from '@/components/ui/input'
 
 import { ICredentials, ILoggedIn } from '@/interfaces/interfaces'
 
+import { useSetUser } from '@/context/userContext'
+
 const AuthForm = ({
   title,
   submitHandler,
@@ -25,6 +29,9 @@ const AuthForm = ({
   title: 'Register' | 'Login'
   submitHandler: (credentials: ICredentials) => Promise<ILoggedIn>
 }) => {
+  const navigate = useNavigate()
+  const setUser = useSetUser()
+
   const formSchema = z.object({
     username: z.string().min(3, {
       message: 'Username must be at least 3 characters.',
@@ -46,7 +53,8 @@ const AuthForm = ({
       username: values.username,
       password: values.password,
     })
-    console.log(result) // TODO: store result to state or reducer
+    setUser(result)
+    navigate('/')
   }
 
   return (
