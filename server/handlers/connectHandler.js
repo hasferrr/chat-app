@@ -1,5 +1,3 @@
-const Chat = require('../models/chat')
-
 module.exports = async (io, socket) => {
   console.log('a user connected')
 

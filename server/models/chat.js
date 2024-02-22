@@ -13,12 +13,11 @@ const chatSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Chat',
-    },
-  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chat',
+    required: true,
+  },
 })
 
 const Chat = mongoose.model('Chat', chatSchema)
