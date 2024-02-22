@@ -16,12 +16,14 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
+import { ICredentials, ILoggedIn } from '@/interfaces/interfaces'
+
 const AuthForm = ({
   title,
   submitHandler,
 }: {
-  title: string
-  submitHandler: () => void
+  title: 'Register' | 'Login'
+  submitHandler: (credentials: ICredentials) => Promise<ILoggedIn>
 }) => {
   const formSchema = z.object({
     username: z.string().min(3, {
@@ -39,9 +41,12 @@ const AuthForm = ({
     },
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    submitHandler() // TODO: pass the `values` to the handler parameter
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const result = await submitHandler({
+      username: values.username,
+      password: values.password,
+    })
+    console.log(result) // TODO: store result to state or reducer
   }
 
   return (

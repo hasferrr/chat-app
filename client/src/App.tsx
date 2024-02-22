@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
+import authentication from './services/authentication'
 import socket from './utils/socket'
 import Header from './components/Header/Header'
 import Chats from './components/Chats/Chats'
@@ -62,7 +63,7 @@ const App = () => {
         element={
           <AuthForm
             title={'Login'}
-            submitHandler={() => {}} // TODO: implements login handler
+            submitHandler={authentication.login}
           />
         }
       />
@@ -71,7 +72,7 @@ const App = () => {
         element={
           <AuthForm
             title={'Register'}
-            submitHandler={() => {}} // TODO: implements register handler
+            submitHandler={authentication.register}
           />
         }
       />
