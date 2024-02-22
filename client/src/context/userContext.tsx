@@ -4,10 +4,10 @@ export type User = { token: string; username: string } | null
 type UserDispatch = { type: 'SET' | 'REMOVE'; payload: User }
 type UserReducer = [User, Dispatch<UserDispatch>]
 
-const userReducer = (state: User, action: UserDispatch) => {
+const userReducer = (state: User, action: UserDispatch): User => {
   switch (action.type) {
     case 'SET':
-      return state
+      return action.payload
     case 'REMOVE':
       return null
     default:
@@ -29,8 +29,22 @@ export const UserContextProvider: React.FC<{
 }
 
 export const useUser = () => {
-  const [value] = useContext(UserContext)
-  return value
+  const [state, dispatch] = useContext(UserContext)
+  if (state !== null) {
+    return state
+  }
+
+  const userString = window.localStorage.getItem('user')
+  if (userString !== null) {
+    const user: User = JSON.parse(userString)
+    dispatch({
+      type: 'SET',
+      payload: user,
+    })
+    return user
+  }
+
+  return null
 }
 
 export const useSetUser = () => {
