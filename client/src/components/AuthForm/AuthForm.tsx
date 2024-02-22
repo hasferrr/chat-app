@@ -45,6 +45,7 @@ const AuthForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
+      password: '',
     },
   })
 
