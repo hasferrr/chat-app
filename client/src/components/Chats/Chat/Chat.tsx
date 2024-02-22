@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-import { IChat } from '@/App'
+import { IChat } from '@/interfaces/interfaces'
 import epochToDate from '@/utils/epochToDate'
 
 const Chat = ({ chat }: { chat: IChat }) => {

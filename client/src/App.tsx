@@ -7,12 +7,7 @@ import Header from './components/Header/Header'
 import Chats from './components/Chats/Chats'
 import Form from './components/Form/Form'
 import AuthForm from './components/AuthForm/AuthForm'
-
-export interface IChat {
-  author: string
-  message: string
-  epochTime: number
-}
+import { IChat } from './interfaces/interfaces'
 
 const App = () => {
   const [chats, setChats] = useState<IChat[]>([])
