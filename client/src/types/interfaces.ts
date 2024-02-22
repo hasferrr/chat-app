@@ -1,10 +1,7 @@
 import { User } from '@/context/userContext'
+import { Chat } from '@/context/chatsContext'
 
-export interface IChat {
-  author: string
-  message: string
-  epochTime: number
-}
+export type IChat = Chat
 
 export interface ICredentials {
   username: string

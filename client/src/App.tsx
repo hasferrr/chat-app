@@ -10,8 +10,11 @@ import Form from './components/Form/Form'
 import AuthForm from './components/AuthForm/AuthForm'
 import { IChat } from './types/interfaces'
 
+import { useAppendOneChat, useSetChats } from './context/chatsContext'
+
 const App = () => {
-  const [chats, setChats] = useState<IChat[]>([])
+  const setChats = useSetChats()
+  const appendOneChat = useAppendOneChat()
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
@@ -20,7 +23,7 @@ const App = () => {
   }, [])
 
   socket.on('message', (chat: IChat) => {
-    setChats([...chats, chat])
+    appendOneChat(chat)
   })
 
   socket.on('get-message', (chats: IChat[]) => {
@@ -53,7 +56,7 @@ const App = () => {
               isConnected={isConnected}
               setIsConnected={setIsConnected}
             />
-            <Chats chats={chats} />
+            <Chats />
             <Form />
           </div>
         }

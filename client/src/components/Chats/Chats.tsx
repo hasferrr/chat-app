@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { IChat } from '@/types/interfaces'
 import Chat from './Chat/Chat'
+import { useChats } from '@/context/chatsContext'
 
-const Chats = ({ chats }: { chats: IChat[] }) => {
+const Chats = () => {
+  const chats = useChats()
   const chatRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
