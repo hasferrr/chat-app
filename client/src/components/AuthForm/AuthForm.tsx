@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom'
-
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { ChevronLeft } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+
 import { cn } from '@/lib/utils'
 
 import { ModeToggle } from '@/components/mode-toggle'
@@ -131,9 +132,17 @@ const AuthForm = ({
               </FormItem>
             )}
           />
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-3">
             <Button type="submit">Submit</Button>
             <div className="grow"></div>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => navigate('/')}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
             <ModeToggle />
           </div>
         </form>
