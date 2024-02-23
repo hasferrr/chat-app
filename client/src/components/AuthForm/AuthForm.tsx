@@ -56,10 +56,19 @@ const AuthForm = ({
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const result = await submitHandler({
-      username: values.username,
-      password: values.password,
-    })
+    let result
+    try {
+      result = await submitHandler({
+        username: values.username,
+        password: values.password,
+      })
+    } catch (error: any) {
+      if (error.response.status === 409) {
+        return alert('username is already taken')
+      }
+      alert('invalid username or password')
+      return
+    }
     setUser(result)
     disconnect()
     connect()

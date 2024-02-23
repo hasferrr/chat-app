@@ -13,11 +13,18 @@ authenticationRouter.post('/register', async (request, response) => {
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const user = new User({
-    username,
+    username: username.trim(),
     passwordHash,
   })
 
-  const savedUser = await user.save()
+  let savedUser
+  try {
+    savedUser = await user.save()
+  } catch (err) {
+    console.log(err.message)
+    response.status(409).json({ error: 'username is already taken' })
+    return
+  }
 
   const token = jwt.sign(
     {

@@ -26,6 +26,14 @@
 }
 ```
 
+**Error Response (409 Conflict):**
+
+```json
+{
+  "error": "username is already in exist"
+}
+```
+
 ### Login
 
 **Endpoint:** `POST /login`
