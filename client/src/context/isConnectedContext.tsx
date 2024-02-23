@@ -48,6 +48,9 @@ export const useIsConnected = () => {
 export const useConnect = () => {
   const [, dispatch] = useContext(IsConnectedContext)
   return () => {
+    const user = window.localStorage.getItem('user')
+    const token = user ? JSON.parse(user).token : null
+    socket.auth = { token }
     socket.connect()
     dispatch({
       type: 'CONNECT',
@@ -59,6 +62,7 @@ export const useConnect = () => {
 export const useDisconnect = () => {
   const [, dispatch] = useContext(IsConnectedContext)
   return () => {
+    socket.auth = { token: null }
     socket.disconnect()
     dispatch({
       type: 'DISCONNECT',

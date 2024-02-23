@@ -36,7 +36,7 @@ const Header = () => {
       <div className="grow"></div>
       <div className="text-xl font-bold">
         Status:{' '}
-        <span className={`text-${isConnected ? 'green' : 'red'}-600`}>
+        <span className={isConnected ? 'text-green-600' : 'text-red-600'}>
           {isConnected ? 'Connected' : 'Disconnected'}
         </span>
       </div>

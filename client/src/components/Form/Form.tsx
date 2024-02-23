@@ -14,7 +14,7 @@ const Form = () => {
     e.preventDefault()
     if (!user) return
     if (inputValue === '') return
-    socket.emit('message', inputValue, user.username)
+    socket.emit('message', inputValue)
     setInputValue('')
   }
 

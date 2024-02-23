@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input'
 import { ICredentials, IUser } from '@/types/interfaces'
 
 import { useSetUser } from '@/context/userContext'
+import { useConnect, useDisconnect } from '@/context/isConnectedContext'
 
 /**
  * Abstract function component for Register and Login
@@ -34,6 +35,8 @@ const AuthForm = ({
 }) => {
   const navigate = useNavigate()
   const setUser = useSetUser()
+  const connect = useConnect()
+  const disconnect = useDisconnect()
 
   const formSchema = z.object({
     username: z.string().min(3, {
@@ -58,6 +61,8 @@ const AuthForm = ({
       password: values.password,
     })
     setUser(result)
+    disconnect()
+    connect()
     navigate('/')
   }
 
