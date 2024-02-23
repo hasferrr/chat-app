@@ -6,6 +6,7 @@ const { createServer } = require('node:http')
 const { Server } = require('socket.io')
 
 const Chat = require('./models/chat')
+const User = require('./models/user')
 const authenticationRouter = require('./controllers/authentication')
 const chatHandler = require('./handlers/chatHandler')
 const connectHandler = require('./handlers/connectHandler')
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 
 app.delete('/', async (req, res) => {
   await Chat.deleteMany()
+  await User.updateMany({}, { $set: { chats: [] } })
   res.json({ status: 'delete success' })
 })
 
