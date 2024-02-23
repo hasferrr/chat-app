@@ -2,7 +2,7 @@
 
 Public real-time chat application
 
-- Client: <https://chat-mi6cifgfq-hasferrrs-projects.vercel.app>
+- Client: <https://chat-app-pink-five.vercel.app>
 - Server: <https://chat-app-gg5e.onrender.com>
 
 ## Installation
