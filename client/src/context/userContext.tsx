@@ -1,6 +1,7 @@
+import { IUser } from '@/types/interfaces'
 import { createContext, useReducer, useContext, Dispatch } from 'react'
 
-export type User = { token: string; username: string } | null
+type User = IUser | null
 type UserDispatch = { type: 'SET' | 'REMOVE'; payload: User }
 type UserReducer = [User, Dispatch<UserDispatch>]
 

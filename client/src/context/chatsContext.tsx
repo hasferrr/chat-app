@@ -1,10 +1,7 @@
+import { IChat } from '@/types/interfaces'
 import { createContext, useReducer, useContext, Dispatch } from 'react'
 
-export interface Chat {
-  author: string
-  message: string
-  epochTime: number
-}
+type Chat = IChat
 type Chats = Chat[]
 type ChatsDispatch = { type: 'SET'; payload: Chats }
 type ChatsReducer = [Chats, Dispatch<ChatsDispatch>]

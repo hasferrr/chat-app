@@ -1,10 +1,7 @@
 import { createContext, useReducer, useContext, Dispatch } from 'react'
 import socket from '@/utils/socket'
 
-interface IsConnectedDispatch {
-  type: 'CONNECT' | 'DISCONNECT'
-  payload: boolean
-}
+type IsConnectedDispatch = { type: 'CONNECT' | 'DISCONNECT' }
 type IsConnectedReducer = [boolean, Dispatch<IsConnectedDispatch>]
 
 const isConnectedReducer = (
@@ -52,10 +49,7 @@ export const useConnect = () => {
     const token = user ? JSON.parse(user).token : null
     socket.auth = { token }
     socket.connect()
-    dispatch({
-      type: 'CONNECT',
-      payload: true,
-    })
+    dispatch({ type: 'CONNECT' })
   }
 }
 
@@ -64,10 +58,7 @@ export const useDisconnect = () => {
   return () => {
     socket.auth = { token: null }
     socket.disconnect()
-    dispatch({
-      type: 'DISCONNECT',
-      payload: false,
-    })
+    dispatch({ type: 'DISCONNECT' })
   }
 }
 
