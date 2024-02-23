@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 import authentication from './services/authentication'
 import socket from './utils/socket'
@@ -11,11 +11,13 @@ import { IChat } from './types/interfaces'
 
 import { useAppendOneChat, useSetChats } from './context/chatsContext'
 import { useConnect } from './context/isConnectedContext'
+import { useUser } from './context/userContext'
 
 const App = () => {
   const setChats = useSetChats()
   const appendOneChat = useAppendOneChat()
   const connect = useConnect()
+  const user = useUser()
 
   useEffect(() => {
     connect()
@@ -50,19 +52,33 @@ const App = () => {
       <Route
         path="/login"
         element={
-          <AuthForm
-            title={'Login'}
-            submitHandler={authentication.login}
-          />
+          !user ? (
+            <AuthForm
+              title={'Login'}
+              submitHandler={authentication.login}
+            />
+          ) : (
+            <Navigate
+              replace
+              to="/"
+            />
+          )
         }
       />
       <Route
         path="/register"
         element={
-          <AuthForm
-            title={'Register'}
-            submitHandler={authentication.register}
-          />
+          !user ? (
+            <AuthForm
+              title={'Register'}
+              submitHandler={authentication.register}
+            />
+          ) : (
+            <Navigate
+              replace
+              to="/"
+            />
+          )
         }
       />
     </Routes>
