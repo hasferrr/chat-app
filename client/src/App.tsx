@@ -10,7 +10,7 @@ import AuthForm from './components/AuthForm/AuthForm'
 import { IChat } from './types/interfaces'
 
 import { useAppendOneChat, useSetChats } from './context/chatsContext'
-import { useConnect } from './context/isConnectedContext'
+import { useConnect } from './context/connectContext'
 import { useUser } from './context/userContext'
 
 const App = () => {

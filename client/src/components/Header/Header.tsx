@@ -6,7 +6,7 @@ import {
   useConnect,
   useDisconnect,
   useIsConnected,
-} from '@/context/isConnectedContext'
+} from '@/context/connectContext'
 import { useRemoveUser, useUser } from '@/context/userContext'
 
 const Header = () => {

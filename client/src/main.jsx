@@ -6,12 +6,12 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { UserContextProvider } from './context/userContext.tsx'
 import { ChatsContextProvider } from './context/chatsContext.tsx'
-import { IsConnectedContextProvider } from './context/isConnectedContext.tsx'
+import { ConnectedContextProvider } from './context/connectContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
-      <IsConnectedContextProvider>
+      <ConnectedContextProvider>
         <UserContextProvider>
           <ChatsContextProvider>
             <ThemeProvider
@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </ThemeProvider>
           </ChatsContextProvider>
         </UserContextProvider>
-      </IsConnectedContextProvider>
+      </ConnectedContextProvider>
     </Router>
   </React.StrictMode>
 )

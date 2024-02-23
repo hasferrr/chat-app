@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input'
 import { ICredentials, IUser } from '@/types/interfaces'
 
 import { useSetUser } from '@/context/userContext'
-import { useConnect, useDisconnect } from '@/context/isConnectedContext'
+import { useConnect, useDisconnect } from '@/context/connectContext'
 
 /**
  * Abstract function component for Register and Login

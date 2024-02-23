@@ -1,12 +1,12 @@
 import { createContext, useReducer, useContext, Dispatch } from 'react'
 import socket from '@/utils/socket'
 
-type IsConnectedDispatch = { type: 'CONNECT' | 'DISCONNECT' }
-type IsConnectedReducer = [boolean, Dispatch<IsConnectedDispatch>]
+type ConnectedDispatch = { type: 'CONNECT' | 'DISCONNECT' }
+type ConnectedReducer = [boolean, Dispatch<ConnectedDispatch>]
 
-const isConnectedReducer = (
+const ConnectedReducer = (
   state: boolean,
-  action: IsConnectedDispatch
+  action: ConnectedDispatch
 ): boolean => {
   switch (action.type) {
     case 'CONNECT':
@@ -18,32 +18,32 @@ const isConnectedReducer = (
   }
 }
 
-const IsConnectedContext = createContext<IsConnectedReducer>([
+const ConnectedContext = createContext<ConnectedReducer>([
   false,
   () => false,
 ])
 
-export const IsConnectedContextProvider: React.FC<{
+export const ConnectedContextProvider: React.FC<{
   children?: React.ReactNode
 }> = (props) => {
-  const [isConnected, isConnectedDispatch] = useReducer(
-    isConnectedReducer,
+  const [isConnected, ConnectedDispatch] = useReducer(
+    ConnectedReducer,
     false
   )
   return (
-    <IsConnectedContext.Provider value={[isConnected, isConnectedDispatch]}>
+    <ConnectedContext.Provider value={[isConnected, ConnectedDispatch]}>
       {props.children}
-    </IsConnectedContext.Provider>
+    </ConnectedContext.Provider>
   )
 }
 
 export const useIsConnected = () => {
-  const [value] = useContext(IsConnectedContext)
+  const [value] = useContext(ConnectedContext)
   return value
 }
 
 export const useConnect = () => {
-  const [, dispatch] = useContext(IsConnectedContext)
+  const [, dispatch] = useContext(ConnectedContext)
   return () => {
     const user = window.localStorage.getItem('user')
     const token = user ? JSON.parse(user).token : null
@@ -54,7 +54,7 @@ export const useConnect = () => {
 }
 
 export const useDisconnect = () => {
-  const [, dispatch] = useContext(IsConnectedContext)
+  const [, dispatch] = useContext(ConnectedContext)
   return () => {
     socket.auth = { token: null }
     socket.disconnect()
@@ -62,4 +62,4 @@ export const useDisconnect = () => {
   }
 }
 
-export default IsConnectedContext
+export default ConnectedContext
