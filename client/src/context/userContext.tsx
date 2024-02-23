@@ -58,7 +58,7 @@ export const useSetUser = () => {
   }
 }
 
-export const useSemoveUser = () => {
+export const useRemoveUser = () => {
   const [, dispatch] = useContext(UserContext)
   return () => {
     dispatch({

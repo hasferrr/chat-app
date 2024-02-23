@@ -124,6 +124,17 @@ const AuthForm = ({
           </div>
         </form>
       </Form>
+      <Button
+        variant="link-small"
+        className="mx-auto mt-3 p-0"
+        onClick={() =>
+          title === 'Login' ? navigate('/register') : navigate('/login')
+        }
+      >
+        {title === 'Login'
+          ? "Don't have an account? Register here."
+          : 'Click here to login instead.'}
+      </Button>
     </div>
   )
 }
