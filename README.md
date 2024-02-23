@@ -2,6 +2,9 @@
 
 Public real-time chat application
 
+- Client: <https://chat-mi6cifgfq-hasferrrs-projects.vercel.app>
+- Server: <https://chat-app-gg5e.onrender.com>
+
 ## Installation
 
 Both client and server requires a `.env` file in the root directory, install the dependencies, and run the application.
