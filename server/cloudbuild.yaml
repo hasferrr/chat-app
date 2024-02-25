@@ -1,0 +1,43 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "asia-southeast1-docker.pkg.dev/chat-app-415304/chat-app-repo/chat-server",
+        ".",
+      ]
+  # Push the container image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "asia-southeast1-docker.pkg.dev/chat-app-415304/chat-app-repo/chat-server",
+      ]
+  # Deploy container image to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      [
+        "run",
+        "deploy",
+        "chat-server",
+        "--image",
+        "asia-southeast1-docker.pkg.dev/chat-app-415304/chat-app-repo/chat-server",
+        "--region",
+        "asia-southeast1",
+        "--allow-unauthenticated",
+        "--min-instances",
+        "0",
+        "--max-instances",
+        "1",
+        "--port",
+        "3000",
+        "--memory",
+        "512Mi",
+        "--cpu",
+        "1",
+      ]
+images:
+  ["asia-southeast1-docker.pkg.dev/chat-app-415304/chat-app-repo/chat-server"]
